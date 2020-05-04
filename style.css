@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css?family=Cinzel&display=swap');
+
+:root {
+  --bg-colour: rgba(182, 126, 64, 1);
+  --font-colour: rgba(248, 212, 82, 1);
+  --hr-colour: rgba(248, 212, 82, .0);
+  --fontPill-colour: rgba(248, 212, 82, .25);
+  --fontSelected-colour: rgba(255, 255, 255, 1);
+  --fontPillSelected-colour: rgba(255, 255, 255, .5);
+  --button-colour: rgba(107, 57, 29, 1);
+  --box-colour: rgba(107, 57, 29, .75);
+  --boxAlt-colour: rgba(255, 255, 255, .25);
+}
+
+body {
+  background: var(--bg-colour);
+  background-image: url("https://bit.ly/2oeGUfA");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  color: var(--font-colour);
+  height: 100vh;
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+h1 {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Cinzel', serif;
+  line-height: 0px;
+  font-weight: bolder;
+	font-size: 130%;
+  letter-spacing: 2px;
+}
+
+#inputs h1 {
+  padding: 5px;
+}
+
+hr {
+  border: 0px;
+  height: 1px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-image: linear-gradient(to right, var(--hr-colour), var(--font-colour), var(--hr-colour));
+}
+
+br {
+  line-height: 1;
+}
+
+::selection {
+  background: var(--font-colour);
+  color: var(--fontSelected-colour);
+}
+
+input[type=checkbox] {
+  margin: -10px;
+  margin-left: 5px;
+  padding: 0px;
+  vertical-align: middle;
+  height: 18px;
+  width: 18px;
+}
+
+input[type=text] {
+  margin: -10px;
+  margin-left: 5px;
+  padding: 0px;
+  vertical-align: middle;
+  height: 18px;
+  width: 150px;
+  outline:0;
+}
+
+select {
+  margin-top: 10px;
+}
+
+#reload {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+#reload>svg {
+  fill: var(--font-colour);
+	opacity: 50%;
+}
+
+#reload>svg:hover {
+	fill: var(--font-colour);
+  opacity: 75%;
+}
+
+#browser {
+  max-width: 600px;
+  margin: auto;
+}
+
+#flexParent {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: no-wrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+}
+
+#inputs, #output {
+  margin: 25px;
+  backdrop-filter: blur(25px);
+}
+
+#inputs {
+  margin-top: 10px;
+}
+
+#inputs {
+  background: var(--box-colour);
+  border: 1px solid var(--box-colour);
+  padding: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 80%;
+  text-align: center;
+  cursor: default;
+  min-width: 800px;
+}
+
+#famcon2, #famcon3 {
+  display: none;
+}
+
+#output {
+  background: var(--boxAlt-colour);
+  border: 1px solid var(--boxAlt-colour);
+  padding: 25px;
+  display: flex;
+  width: 50%;
+  /* height: 250px; */
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-align: center;
+  color: var(--button-colour);
+  font-size: 100%;
+  font-weight: 600;
+  white-space: pre-wrap;
+  user-select: all;
+}
+
+/* pill selection */
+.pill, .pillSelected {
+  user-select: none;
+  padding: 3px;
+  border-radius: 7px;
+  transition: 0.05s;
+  margin-left: 3px;
+  margin-right: 3px;
+  white-space: nowrap;
+}
+
+.pill {
+  color: var(--font-colour);
+}
+
+.pillSelected {
+  background: var(--button-colour);
+  color: var(--font-colour);
+}
+
+.pill:hover, .pillSelected:hover {
+  background: var(--button-colour);
+  color: var(--font-colour);
+}
+
+.pill:active, .pillSelected:active {
+  filter: brightness(110%);
+}
+
+/* button tabLinks */
+.tabLinks>svg {
+  height: 50px;
+  width: 50px;
+}
+
+.tabLinks {
+  margin-top: 25px;
+  background-color: var(--box-colour);
+  border: 1px solid var(--box-colour);
+  color: var(--font-colour);
+  padding: 5px;
+  text-align: center;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 80%;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  outline: none;
+  backdrop-filter: blur(25px);
+}
+
+.tabLinks:hover, .active {
+  background-color: var(--button-colour);
+}
+
+/* button roll */
+#buttonRoll {
+  background-color: var(--box-colour);
+  border: 1px solid var(--box-colour);
+  backdrop-filter: blur(25px);
+  color: var(--font-colour);
+  padding: 25px;
+  text-align: center;
+  display: inline-block;
+  font-family: inherit;
+  font-size: 125%;
+  font-weight: boldest;
+  white-space: no-wrap;
+  outline: none;
+}
+
+#buttonRoll:active {
+  background-color: var(--button-colour);
+}
+
+#buttonRoll:focus {
+  outline: 0;
+}
+
+@keyframes shake {
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+#buttonRoll:hover {
+  animation: shake 0.4s;
+}
