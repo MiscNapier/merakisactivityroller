@@ -708,22 +708,21 @@ function buttonForaging() {
     flVeryRare = [":thumb726994265:",":thumb727211352:"];
   }
 
-  function buttonPress() {
-    getOptions();
-    console.log(master, familiars, talismans);
-    rollBonus();
-    console.log(bonus);
-    let rollNumber = rollAmount();
-    for (let i = 0; i < rollNumber; i++) {
-      rollForage();
-    }
-    console.log(rarityCheck);
-    sanitize();
-    if (loot.length === 0) {
-      document.getElementById("output").innerText = "Unfortunately, " + name + " didn’t find anything of interest on your foraging trip!";
-    } else {
-      document.getElementById("output").innerText = name + "'s foraging trip was a success! You've brought back the following...\n" + loot + bonus;
-    }
-    clear();
+
+  getOptions();
+  console.log(master, familiars, talismans);
+  rollBonus();
+  console.log(bonus);
+  let rollNumber = rollAmount();
+  for (let i = 0; i < rollNumber; i++) {
+    rollForage();
   }
+  console.log(rarityCheck);
+  sanitize();
+  if (loot.length === 0) {
+    document.getElementById("output").innerText = "Unfortunately, " + name + " didn’t find anything of interest on your foraging trip!";
+  } else {
+    document.getElementById("output").innerText = name + "'s foraging trip was a success! You've brought back the following...\n" + loot + bonus;
+  }
+  clear();
 }
