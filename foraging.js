@@ -4,15 +4,15 @@
 function populateForagingInputs() {
   // populate familiar dropdowns
   let familiarList = '<option value="none">Select Familiar...</option>' +
-  '<option value="familiarSOC">Sugar Glider, Opossum, Chinchilla</option>' +
+  '<option value="familiarSO">Sugar Glider, Opossum</option>' +
   '<option value="familiarRMSC">Rats, Mice, Squirrels, Chipmunk</option>' +
   '<option value="familiarBL">Black Lamb</option> ' +
   '<option value="familiarBSAE">Blue Jay, Steller’s Jay, Azure Jay, Eurasian Magpie</option>' +
-  '<option value="familiarTRCC">Tits, Robins, Cardinals, Chickadees</option>' +
+  '<option value="familiarTRCCF">Tits, Robins, Cardinals, Chickadees, Finches</option>' +
   '<option value="familiarMDWP">Mourning Dove, Diamond Dove, White Dove, Pigeon</option>' +
   '<option value="familiarBBS">Barn Owl, Burrowing Owl, Screech Owl</option>' +
   '<option value="familiarR">Rabbits</option>' +
-  '<option value="familiarH">Hedgehogs</option>';
+  '<option value="familiarHC">Hedgehogs, Chinchillas</option>';
 
   document.getElementById('familiar1').insertAdjacentHTML('beforeend', familiarList);
   document.getElementById('familiar2').insertAdjacentHTML('beforeend', familiarList);
@@ -42,15 +42,15 @@ function buttonForaging() {
     // console.log(famCheck);
 
     familiars = {
-      SOC: (famCheck.indexOf("familiarSOC") !== -1) ? true:false,
+      SO: (famCheck.indexOf("familiarSO") !== -1) ? true:false,
       RMSC: (famCheck.indexOf("familiarRMSC") !== -1) ? true:false,
       BL: (famCheck.indexOf("familiarBL") !== -1) ? true:false,
       BSAE: (famCheck.indexOf("familiarBSAE") !== -1) ? true:false,
-      TRCC: (famCheck.indexOf("familiarTRCC") !== -1) ? true:false,
+      TRCCF: (famCheck.indexOf("familiarTRCCF") !== -1) ? true:false,
       MDWP: (famCheck.indexOf("familiarMDWP") !== -1) ? true:false,
       BBS: (famCheck.indexOf("familiarBBS") !== -1) ? true:false,
       R: (famCheck.indexOf("familiarR") !== -1) ? true:false,
-      H: (famCheck.indexOf("familiarH") !== -1) ? true:false
+      HC: (famCheck.indexOf("familiarHC") !== -1) ? true:false
     };
 
     // FIXME: first entry in object correct, the remaining not showing up?
@@ -70,8 +70,9 @@ function buttonForaging() {
     let toolCheck = getPillSelect('toolContainer');
 
     tools = {
-      ruggedCloak: (toolCheck.indexOf("rugged cloak") !== -1) ? true:false,
-      smallPouche: (toolCheck.indexOf("small pouche") !== -1) ? true:false,
+      elementalBonus: (toolCheck.indexOf("elemental bonus") !== -1) ? true:false,
+      raggedCloak: (toolCheck.indexOf("ragged cloak") !== -1) ? true:false,
+      smallPouch: (toolCheck.indexOf("small pouch") !== -1) ? true:false,
       largeBag: (toolCheck.indexOf("large bag") !== -1) ? true:false
     };
 
@@ -105,14 +106,14 @@ function buttonForaging() {
   function rollAmount() {
     let x = rng(100),
         output = 0;
-    if (familiars.SOC === true && master === true || familiars.SOC === true && talismans.check === true) {
-      // SOC/master/talisman
+    if (familiars.SO === true && master === true || familiars.SO === true && talismans.check === true) {
+      // SO/master/talisman
       if (x <= 100) {
         // 4
         output = 4;
       }
-    } else if (familiars.SOC === true) {
-      // SOC only
+    } else if (familiars.SO === true) {
+      // SO only
       if (x <= 4) {
         // none
         output = 0;
@@ -162,13 +163,216 @@ function buttonForaging() {
       output += 1;
     }
 
+    if (tools.elementalBonus && rng(100) <= 25) {
+      output += 1;
+    }
+
+    if (tools.smallPouch) {
+      output += 1;
+    }
+
+    if (tools.largeBag) {
+      output += 2;
+    }
+
     return output;
   }
 
   // foragables lists
   function familiarRoll() {
-    let output = "test",
-        x = rng(900);
+    let output = "test";
+
+    let listRats = [
+      [50,":thumb711486815:"],
+      [100,":thumb711486857:"],
+      [150,":thumb711486850:"],
+      [180,":thumb711486822:"],
+      [210,":thumb711486833:"],
+      [240,":thumb711486807:"],
+      [270,":thumb711486854:"],
+      [300,":thumb711486859:"],
+      [320,":thumb711486840:"]
+    ];
+
+    let listCrowsRavens = [
+      [50,":thumb712679022:"],
+      [100,":thumb712702154:"],
+      [130,":thumb712679011:"],
+      [160,":thumb712702160:"],
+      [190,":thumb712679015:"],
+      [210,":thumb712679027:"],
+      [230,":thumb712702163:"],
+      [240,":thumb712743124:"]
+    ];
+
+    let listMice = [
+      [50,":thumb712678671:"],
+      [100,":thumb712678681:"],
+      [150,":thumb712678644:"],
+      [200,":thumb712678652:"],
+      [250,":thumb712678665:"],
+      [280,":thumb712678678:"],
+      [310,":thumb712678657:"],
+      [340,":thumb712678668:"],
+      [370,":thumb712678648:"],
+      [400,":thumb712678632:"],
+      [420,":thumb712678638:"],
+      [440,":thumb712678626:"]
+    ];
+
+    let listSmallRodents = [
+      [50,":thumb716417824:"],
+      [100,":thumb746175325:"],
+      [130,":thumb716417816:"],
+      [160,":thumb716417829:"],
+      [180,":thumb746175347:"]
+    ];
+
+    let listJays = [
+      [50,"[PENDING] Blue Jay"],
+      [100,"[PENDING] Eurasian Magpie"],
+      [130,"[PENDING] Steller's Jay"],
+      [160,"[PENDING] Azure Jay"],
+      [190,"[PENDING] Florida Scrub-Jay"]
+    ];
+
+    let listRaptors = [
+      [50,":thumb837897361:"],
+      [80,":thumb837897350:"],
+      [110,":thumb837897355:"],
+      [130,"[PENDING] Red-Tailed Hawk"]
+    ];
+
+    let listOwls = [
+      [50,"[PENDING] Barn Owl"],
+      [80,"[PENDING] Burrowing Owl"],
+      [110,"[PENDING] Screech Owl"],
+      [140,"[PENDING] Great Grey Owl"]
+    ];
+
+    let listDoves = [
+      [50,":thumb740482649:"],
+      [100,":thumb740482659:"],
+      [130,":thumb740482638:"],
+      [160,":thumb740482667:"]
+    ];
+
+    let listMarsupials = [
+      [10,":thumb717133569:"],
+      [40,":thumb838396809:"],
+      [70,":thumb838396819:"],
+      [100,":thumb838396803:"]
+    ];
+
+    let listRabbits = [
+      [50,":thumb735174623:"],
+      [100,":thumb735174557:"],
+      [150,":thumb735174591:"],
+      [180,":thumb735174613:"],
+      [210,":thumb735174569:"],
+      [240,":thumb735174607:"],
+      [270,":thumb735174584:"]
+    ];
+
+    let listChickens = [
+      [50,":thumb736640976:"],
+      [100,":thumb736640928:"],
+      [150,":thumb736640982:"],
+      [180,":thumb736640989:"],
+      [210,":thumb736640945:"],
+      [240,":thumb736640969:"],
+      [260,":thumb736640937:"],
+      [270,":thumb736640957:"]
+    ];
+
+    let listPigs = [
+      [50,":thumb830430113:"],
+      [100,":thumb830430120:"],
+      [150,":thumb830430111:"],
+      [180,":thumb830430092:"],
+      [210,":thumb830430107:"],
+      [230,":thumb830430099:"]
+    ];
+
+    let listWeasels = [
+      [700,"[PENDING]"]
+    ];
+
+    let listHedgehogsChinchillas = [
+      [50,":thumb718605142:"],
+      [80,":thumb718605121:"],
+      [110,":thumb718605129:"],
+      [140,":thumb838381638:"],
+      [170,":thumb746175310:"],
+      [200,":thumb746175271:"],
+      [220,":thumb746175283:"],
+      [240,":thumb746175297:"],
+      [260,":thumb718605153:"],
+      [270,":thumb718605171:"]
+    ];
+
+    let listBats = [
+      [1,":thumb813437782:"],
+      [2,":thumb813437763:"],
+      [3,":thumb813437774:"],
+      [4,":thumb813437791:"]
+    ];
+
+    let listToads = [
+      [1,"PENDING"]
+    ];
+
+    let listTurtles = [
+      [50,"[PENDING] Pond Slider Turtle"],
+      [80,"[PENDING] Eastern Box Turtle"],
+      [110,"[PENDING]  Painted Turtle"]
+    ];
+
+    let listSongbirds = [
+      [50,":thumb718854405:"],
+      [100,":thumb816708145:"],
+      [150,":thumb816708150:"],
+      [200,":thumb816708167:"],
+      [250,":thumb831718592:"],
+      [300,":thumb718854423:"],
+      [350,":thumb718854407:"],
+      [400,":thumb718854417:"],
+      [430,":thumb816708140:"],
+      [450,":thumb718854426:"],
+      [470,":thumb718854396:"]
+    ];
+
+    let listSnakes = [
+      [1,"[PENDING] Garter Snake"],
+      [2,"[PENDING] Corn Snake"]
+    ];
+
+    let listFamiliars = [
+      [50,rngList(listRats,320)],
+      [100,rngList(listCrowsRavens,240)],
+      [200,rngList(listMice,440)],
+      [250,rngList(listSmallRodents,180)],
+      [300,rngList(listJays,190)],
+      [350,rngList(listRaptors,130)],
+      [400,rngList(listOwls,140)],
+      [500,rngList(listMarsupials,100)],
+      [550,rngList(listRabbits,270)],
+      [600,rngList(listChickens,270)],
+      [650,rngList(listPigs,230)],
+      [700,rngList(listWeasels,1)],
+      [750,rngList(listHedgehogsChinchillas,270)],
+      [800,rngList(listBats,4)],
+      [850,rngList(listToads,1)],
+      [900,rngList(listTurtles,110)],
+      [950,rngList(listSongbirds,470)],
+      [1000,rngList(listSnakes,2)],
+    ];
+
+    output = rngList(listFamiliars,1000);
+    // console.log(output);
+
+    /*
+    // old familiar logic
     if (x <= 50) {
       // rats
       let y = rng(300);
@@ -476,36 +680,46 @@ function buttonForaging() {
         output = ":thumb718854396:";
       }
     }
+    */
+
     return output;
   }
-  let flVeryCommon = [":thumb711486765:",":thumb711486762:",":thumb711486755:",":thumb711513523:",":thumb725781216:",":thumb716142179:",":thumb733563157:",":thumb716417749:",":thumb711513528:",":thumb733563359:",":thumb716417852:",":thumb711513535:",":thumb733563345:",":thumb724744164:",":thumb711513530:",":thumb734085144:"];
-  let flCommon = [":thumb733563195:",":thumb726453210:",":thumb711512539:",":thumb716417784:",":thumb716142170:",":thumb732448581:",":thumb734085132:",":thumb732448573:",":thumb732448554:",":thumb716142174:",":thumb725781296:",":thumb732448604:",":thumb711512545:",":thumb733563351:",":thumb733563276:",":thumb733563415:",":thumb733563385:"];
-  let flUncommon = [/*":thumb727209468:",":thumb735119021:",":thumb733563237:",":thumb733563183:",":thumb726994219:",":thumb726453385:",":thumb717157582:",":thumb715097318:",":thumb726994238:",":thumb735119026:",":thumb733563335:",":thumb732448622:",":thumb715097305:",":thumb732448648:",":thumb735119029:",":thumb733563375:",":thumb716417830:",":thumb715097293:"*/];
-  let flRare = [":thumb726453488:",":thumb711512533:",":thumb733563252:",familiarRoll()];
+
+  let flVeryCommon = [familiarRoll()]; // familiarRoll testing
+  // let flVeryCommon = [":thumb711486765:",":thumb711486762:",":thumb711486755:",":thumb711513523:",":thumb725781216:",":thumb716142179:",":thumb733563157:",":thumb716417749:",":thumb711513528:",":thumb733563359:",":thumb716417852:",":thumb711513535:",":thumb733563345:",":thumb724744164:",":thumb711513530:",":thumb734085144:"];
+  let flCommon = [":thumb733563195:",":thumb726453210:",":thumb711512539:",":thumb716417784:",":thumb716142170:",":thumb732448581:",":thumb734085132:",":thumb732448573:",":thumb732448554:",":thumb716142174:",":thumb725781296:",":thumb732448604:",":thumb711512545:",":thumb733563351:",":thumb733563276:",":thumb733563415:",":thumb733563385:",":thumb835129276:",":thumb835129294:",":thumb711512526:"];
+  let flUncommon = [":thumb727209468:",":thumb735119021:",":thumb733563237:",":thumb733563183:",":thumb726994219:",":thumb726453385:",":thumb717157582:",":thumb715097318:",":thumb726994238:",":thumb735119026:",":thumb733563335:",":thumb732448622:",":thumb715097305:",":thumb732448648:",":thumb735119029:",":thumb733563375:",":thumb716417830:",":thumb715097293:",":thumb835129280:"];
+  let flRare = [":thumb726453488:",":thumb711512533:",":thumb733563252:"];
   let flVeryRare = [":thumb726994265:",":thumb727211352:"];
+
+  let flVeryCommonSafe = flVeryCommon;
+  let flCommonSafe = flCommon;
+  let flUncommonSafe = flUncommon;
+  let flRareSafe = flRare;
+  let flVeryRareSafe = flVeryRare;
 
   // forage logic
   let rarityCheck = [];
       loot = [];
   function rollForage() {
-    let x = rng(800);
-    if (x <= 400) {
+    let x = rng(1150);
+    if (x <= 500) {
       // very common
       loot.push(randomizer(flVeryCommon));
       rarityCheck.push("very common");
-    } else if (x <= 650) {
+    } else if (x <= 800) {
       // common
       loot.push(randomizer(flCommon));
       rarityCheck.push("common");
-    } else if (x <= 775) {
+    } else if (x <= 1000) {
       // uncommon
       loot.push(randomizer(flUncommon));
       rarityCheck.push("uncommon");
-    } else if (x <= 795) {
+    } else if (x <= 1100) {
       // rare
       loot.push(randomizer(flRare));
       rarityCheck.push("rare");
-    } else if (x <= 800) {
+    } else if (x <= 1150) {
       // very rare
       loot.push(randomizer(flVeryRare));
       rarityCheck.push("very rare");
@@ -542,8 +756,7 @@ function buttonForaging() {
 
     // BL
     if (familiars.BL === true && rng(100) <= 2) {
-      let bonusList = [":thumb729124733:",":thumb729124733:", ":thumb729124741:",":thumb729124756:",":thumb729124763:"],
-          output = "It seems a special someone has followed your lamb familiar all the way home..." + randomizer(bonusList) + "\nTo redeem your Lost Kitten, head over to the current Summoning Requests journal!";
+      let output = "It seems a special someone has followed your lamb familiar all the way home..." + ":thumb729124733:" + "\nTo redeem your Lost Kitten, head over to the current Summoning Requests journal!";
       bonus.push(output);
     }
 
@@ -583,8 +796,8 @@ function buttonForaging() {
       flVeryRare.push(":thumb717157628:");
     }
 
-    // TRCC
-    if (familiars.TRCC === true && rng(100) <= 25) {
+    // TRCCF
+    if (familiars.TRCCF === true && rng(100) <= 25) {
       let x = rng(100),
           bonusAmount = 0;
 
@@ -649,8 +862,8 @@ function buttonForaging() {
       bonus.push(output.join(" "));
     }
 
-    // H
-    if (familiars.H === true && rng(100) <= 25) {
+    // HC
+    if (familiars.HC === true && rng(100) <= 25) {
       let x = rng(100),
           bonusAmount = 0;
 
@@ -665,12 +878,18 @@ function buttonForaging() {
         bonusAmount = 3;
       }
 
-      let bonusList = [":thumb726453276:", ":thumb717157582:",":thumb726453258:",":thumb726994219:",":thumb726453240:"],
+      let bonusList = [":thumb726453276:", ":thumb717157582:",":thumb726453258:",":thumb726994219:",":thumb726453240:",":thumb838577646:",":thumb724744164:",":thumb715097305:",":thumb726453210:"],
           output = ["Your hedgehog familiar happened to find some useful materials on your foraging trip!\n"];
       for (let i = 0; i < bonusAmount; i++) {
         output.push(randomizer(bonusList));
       }
       bonus.push(output.join(" "));
+    }
+
+    // elemental bonus
+    if (tools.elementalBonus && rng(100) <= 3) {
+      let output = "[elemental bonus very rare elemental mutation runestone]\n";
+      bonus.push(output);
     }
   }
 
@@ -701,28 +920,38 @@ function buttonForaging() {
     rarityCheck = [];
     loot = [];
     bonus = [];
-    flVeryCommon = [":thumb711486765:",":thumb711486762:",":thumb711486755:",":thumb711513523:",":thumb725781216:",":thumb716142179:",":thumb733563157:",":thumb716417749:",":thumb711513528:",":thumb733563359:",":thumb716417852:",":thumb711513535:",":thumb733563345:",":thumb724744164:",":thumb711513530:",":thumb734085144:"];
-    flCommon = [":thumb733563195:",":thumb726453210:",":thumb711512539:",":thumb716417784:",":thumb716142170:",":thumb732448581:",":thumb734085132:",":thumb732448573:",":thumb732448554:",":thumb716142174:",":thumb725781296:",":thumb732448604:",":thumb711512545:",":thumb733563351:",":thumb733563276:",":thumb733563415:",":thumb733563385:"];
-    flUncommon = [":thumb727209468:",":thumb735119021:",":thumb733563237:",":thumb733563183:",":thumb726994219:",":thumb726453385:",":thumb717157582:",":thumb715097318:",":thumb726994238:",":thumb735119026:",":thumb733563335:",":thumb732448622:",":thumb715097305:",":thumb732448648:",":thumb735119029:",":thumb733563375:",":thumb716417830:",":thumb715097293:"];
-    flRare = [":thumb726453488:",":thumb711512533:",":thumb733563252:",familiarRoll()];
-    flVeryRare = [":thumb726994265:",":thumb727211352:"];
+    flVeryCommon = flVeryCommonSafe;
+    flCommon = flCommonSafe;
+    flUncommon = flUncommonSafe;
+    flRare = flRareSafe;
+    flVeryRare = flVeryRareSafe;
   }
 
-
   getOptions();
-  console.log(master, familiars, talismans);
+  // console.log(master, familiars, talismans, tools);
+
+  if (tools.raggedCloak) {
+    flUncommon.push(familiarRoll());
+  } else {
+    flRare.push(familiarRoll());
+  }
+
   rollBonus();
-  console.log(bonus);
+  // console.log(bonus);
+
   let rollNumber = rollAmount();
   for (let i = 0; i < rollNumber; i++) {
     rollForage();
   }
   console.log(rarityCheck);
+
   sanitize();
+
   if (loot.length === 0) {
     document.getElementById("output").innerText = "Unfortunately, " + name + " didn’t find anything of interest on your foraging trip!";
   } else {
     document.getElementById("output").innerText = name + "'s foraging trip was a success! You've brought back the following...\n" + loot + bonus;
   }
+
   clear();
 }
