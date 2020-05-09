@@ -48,7 +48,6 @@ function buttonScavenging() {
       S: (famCheck.indexOf("familiarS") !== -1) ? true:false,
     };
 
-    // FIXME: first entry in object correct, the remaining not showing up?
     // talismans
     let talismansCheck = getPillSelect('talismansContainer');
     console.log(talismansCheck);
@@ -151,49 +150,108 @@ function buttonScavenging() {
     return output;
   }
 
-  // foragables lists
-  let flVeryCommon = [];
-  let flCommon = [];
-  let flUncommon = [];
-  let flRare = [];
-  let flVeryRare = [];
+  // drop lists
+  let dlVeryCommon = [":thumb717157576:",":thumb717157677:",":thumb717157655:",":thumb717157682:",":thumb717157564:",":thumb717157572:",":thumb813880695:"];
+  let dlCommon = [":thumb717157634:",":thumb717157642:",":thumb716417779:",":thumb716417804:",":thumb717157602:",":thumb835129305:",":thumb835129328:",":thumb716142125:",":thumb716142135:",":thumb716142160:",":thumb717157675:",":thumb717157597:"];
+  let dlUncommon = [":thumb717157707:",":thumb717157593:",":thumb717157675:",":thumb717157700:",":thumb717157669:",":thumb717157664:",":thumb717157658:",":thumb717157645:",":thumb717157615:",":thumb717133497:",":thumb716417842:",":thumb717133593:",":thumb717133545:",":thumb717133532:",":thumb743932752:",":thumb740483255:",":thumb716142158:",":thumb716142166:",":thumb716142119:",":thumb835129289:"];
+  let dlRare = [":thumb717157588:",":thumb717157692:",":thumb728748993:",":thumb717157621:",":thumb717157649:",":thumb717157611:",":thumb835129316:",":thumb837468377:"];
+  let dlVeryRare = [":thumb717157628:",":thumb716142139:",":thumb716142115:",":thumb716417788:",":thumb716417835:"];
 
-  let flVeryCommonSafe = flVeryCommon;
-  let flCommonSafe = flCommon;
-  let flUncommonSafe = flUncommon;
-  let flRareSafe = flRare;
-  let flVeryRareSafe = flVeryRare;
+  let dlVeryCommonSafe = dlVeryCommon;
+  let dlCommonSafe = dlCommon;
+  let dlUncommonSafe = dlUncommon;
+  let dlRareSafe = dlRare;
+  let dlVeryRareSafe = dlVeryRare;
 
-  // forage logic
+  // scavenge logic
   let rarityCheck = [];
       loot = [];
-  function rollForage() {
+  function rollScavenge() {
     let x = rng(1150);
     if (x <= 500) {
       // very common
-      loot.push(randomizer(flVeryCommon));
+      loot.push(randomizer(dlVeryCommon));
       rarityCheck.push("very common");
     } else if (x <= 800) {
       // common
-      loot.push(randomizer(flCommon));
+      loot.push(randomizer(dlCommon));
       rarityCheck.push("common");
     } else if (x <= 1000) {
       // uncommon
-      loot.push(randomizer(flUncommon));
+      loot.push(randomizer(dlUncommon));
       rarityCheck.push("uncommon");
     } else if (x <= 1100) {
       // rare
-      loot.push(randomizer(flRare));
+      loot.push(randomizer(dlRare));
       rarityCheck.push("rare");
     } else if (x <= 1150) {
       // very rare
-      loot.push(randomizer(flVeryRare));
+      loot.push(randomizer(dlVeryRare));
       rarityCheck.push("very rare");
     }
   }
 
   let bonus = [];
   function rollBonus() {
+    // CR
+    if (familiars.CR && rng(100) <= 25) {
+      let output, bonusAmount, bonusList;
+
+      output = ["Your [crow/raven] familiar has found some extra shiny things for you!"];
+      bonusAmount = rngList([[50,1],[80,2],[100,3]],100);
+      bonusList = [":thumb717157642:",":thumb717157602:",":thumb717157655:",":thumb717157677:",":thumb717157682:",":thumb717157675:",":thumb717157597:",":thumb717157634:",":thumb717157707:",":thumb717157593:",":thumb717157675:",":thumb717157700:",":thumb717157669:",":thumb717157664:",":thumb717157658:",":thumb717157645:",":thumb717157615:",":thumb835129316:"];
+
+      for (let i = 0; i < bonusAmount; i++) {
+        output.push(randomizer(bonusList));
+      }
+      bonus.push(output.join(" "));
+    }
+
+    // BL
+    if (familiars.BL && rng(100) <= 2) {
+      let output = "It seems a special someone has followed your lamb familiar all the way home... " + ":thumb729124733:" + "\nTo redeem your Lost Kitten, head over to the current Summoning Requests journal!";
+      bonus.push(output);
+    }
+
+    // FH
+    if (familiars.FH) {
+      dlVeryRare.push(":thumb726994265:");
+    }
+
+    // MDWP
+    if (familiars.MDWP === true) {
+      let output = ":thumb711486788: x" + rngRange(5,20);
+      dlUncommon.push(output);
+    }
+
+    // BBS
+    if (familiars.BBS && rng(100) <= 90) {
+      console.log("BBS");
+      let output, bonusList;
+
+      output = ["Your owl familiar spotted a lost satchel full of goodies! You peek inside the velvet bag to find..."];
+      bonusList = [":thumb711513535:",":thumb711513523:",":thumb711513530:",":thumb711513528:",":thumb716142170:",":thumb733563237:",":thumb717157642:",":thumb733563351:",":thumb733563375:",":thumb716417749:",":thumb717157664:",":thumb717157677:"];
+
+      for (let i = 0; i < 3; i++) {
+        output.push(randomizer(bonusList));
+      }
+      bonus.push(output.join(" "));
+    }
+
+    // T
+    if (familiars.T && rng(100) <= 25) {
+      let output, bonusAmount, bonusList;
+
+      output = ["Your toad familiar picked up a few extra bones for you! What a grisly find."];
+      bonusAmount = rngList([[50,1],[80,2],[100,3]],100);
+      bonusList = [":thumb813880695:",":thumb743932752:",":thumb740483255:",":thumb716142139:",":thumb716142115:"];
+
+      for (let i = 0; i < bonusAmount; i++) {
+        output.push(randomizer(bonusList));
+      }
+      bonus.push(output.join(" "));
+    }
+
     // elemental bonus
     if (tools.elementalBonus && rng(100) <= 3) {
       let output = "[elemental bonus very rare elemental mutation runestone]\n";
@@ -204,6 +262,18 @@ function buttonScavenging() {
   // sanitize outputs
   function sanitize() {
     loot = loot.join(" ");
+
+    let thumbRegexMDWP = /:thumb711486788: x(5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20)/gi;
+    if (loot.search(thumbRegexMDWP) !== -1) {
+      let outputMDWP = loot.match(thumbRegexMDWP).join(" ");
+      loot = loot.replace(thumbRegexMDWP, "");
+      let output = "Your lucky [mourning/diamond/white dove/pigeon] familiar found some spare drachmas for you!\n" + outputMDWP;
+      bonus.push(output);
+    }
+
+    if (bonus.length !== 0) {
+      bonus = "\n\n" + bonus.join("\n\n");
+    }
   }
 
   // clear
@@ -211,11 +281,11 @@ function buttonScavenging() {
     rarityCheck = [];
     loot = [];
     bonus = [];
-    flVeryCommon = flVeryCommonSafe;
-    flCommon = flCommonSafe;
-    flUncommon = flUncommonSafe;
-    flRare = flRareSafe;
-    flVeryRare = flVeryRareSafe;
+    dlVeryCommon = dlVeryCommonSafe;
+    dlCommon = dlCommonSafe;
+    dlUncommon = dlUncommonSafe;
+    dlRare = dlRareSafe;
+    dlVeryRare = dlVeryRareSafe;
   }
 
   getOptions();
@@ -226,7 +296,7 @@ function buttonScavenging() {
 
   let rollNumber = rollAmount();
   for (let i = 0; i < rollNumber; i++) {
-    rollForage();
+    rollScavenge();
   }
   console.log(rarityCheck);
 
