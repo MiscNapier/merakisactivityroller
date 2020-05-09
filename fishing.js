@@ -223,7 +223,7 @@ function buttonFishing() {
     }
 
     // BBS
-    if (familiars.BBS && rng(100) <= 90) {
+    if (familiars.BBS && rng(100) <= 20) {
       console.log("BBS");
       let output, bonusList;
 
@@ -244,9 +244,10 @@ function buttonFishing() {
       bonusListRare = [":thumb717157707:",":thumb717157593:",":thumb717157675:",":thumb717157700:",":thumb717157669:",":thumb717157645:",":thumb717157615:"];
       bonusListVeryRare = [":thumb717157588:",":thumb717157692:",":thumb728748993:",":thumb717157611:"];
 
-      dlUncommon.splice(-1,0,bonusListUncommon);
-      dlRare.splice(-1,0,bonusListRare);
-      dlVeryRare.splice(-1,0,bonusListVeryRare);
+      dlUncommon.concat(bonusListUncommon);
+      dlRare.concat(bonusListRare);
+      dlVeryRare.concat(bonusListVeryRare);
+      console.log(dlRare);
     }
 
     // elemental bonus

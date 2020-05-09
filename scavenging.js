@@ -225,7 +225,7 @@ function buttonScavenging() {
     }
 
     // BBS
-    if (familiars.BBS && rng(100) <= 90) {
+    if (familiars.BBS && rng(100) <= 20) {
       console.log("BBS");
       let output, bonusList;
 

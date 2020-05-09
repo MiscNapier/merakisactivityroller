@@ -8,7 +8,7 @@ function populateForagingInputs() {
   '<option value="familiarRMSC">Rats, Mice, Squirrels, Chipmunk</option>' +
   '<option value="familiarBL">Black Lamb</option> ' +
   '<option value="familiarBSAE">Blue Jay, Steller’s Jay, Azure Jay, Eurasian Magpie</option>' +
-  '<option value="familiarTRCCF">Tits, Robins, Cardinals, Chickadees, Finches</option>' +
+  '<option value="familiarRCCF">Robins, Cardinals, Chickadees, Finches</option>' +
   '<option value="familiarMDWP">Mourning Dove, Diamond Dove, White Dove, Pigeon</option>' +
   '<option value="familiarBBS">Barn Owl, Burrowing Owl, Screech Owl</option>' +
   '<option value="familiarR">Rabbits</option>' +
@@ -46,14 +46,13 @@ function buttonForaging() {
       RMSC: (famCheck.indexOf("familiarRMSC") !== -1) ? true:false,
       BL: (famCheck.indexOf("familiarBL") !== -1) ? true:false,
       BSAE: (famCheck.indexOf("familiarBSAE") !== -1) ? true:false,
-      TRCCF: (famCheck.indexOf("familiarTRCCF") !== -1) ? true:false,
+      RCCF: (famCheck.indexOf("familiarRCCF") !== -1) ? true:false,
       MDWP: (famCheck.indexOf("familiarMDWP") !== -1) ? true:false,
       BBS: (famCheck.indexOf("familiarBBS") !== -1) ? true:false,
       R: (famCheck.indexOf("familiarR") !== -1) ? true:false,
       HC: (famCheck.indexOf("familiarHC") !== -1) ? true:false
     };
 
-    // FIXME: first entry in object correct, the remaining not showing up?
     // talismans
     let talismansCheck = getPillSelect('talismansContainer');
     console.log(talismansCheck);
@@ -65,17 +64,6 @@ function buttonForaging() {
       racoon: (talismansCheck.indexOf("racoon") !== -1) ? true:false,
       check: false
     };
-
-    // tools
-    let toolCheck = getPillSelect('toolContainer');
-
-    tools = {
-      elementalBonus: (toolCheck.indexOf("elemental bonus") !== -1) ? true:false,
-      raggedCloak: (toolCheck.indexOf("ragged cloak") !== -1) ? true:false,
-      smallPouch: (toolCheck.indexOf("small pouch") !== -1) ? true:false,
-      largeBag: (toolCheck.indexOf("large bag") !== -1) ? true:false
-    };
-
 
     let season = getSeason();
     if (season !== "spring") {
@@ -91,14 +79,24 @@ function buttonForaging() {
       talismans.racoon= false;
     }
 
-    if (talismans.rabbit === true || talismans.sparrow === true || talismans.deer === true || talismans.racoon === true) {
+    if (talismans.rabbit || talismans.sparrow || talismans.deer || talismans.racoon) {
       talismans.check = true;
     }
+
+    // tools
+    let toolCheck = getPillSelect('toolContainer');
+
+    tools = {
+      elementalBonus: (toolCheck.indexOf("elemental bonus") !== -1) ? true:false,
+      raggedCloak: (toolCheck.indexOf("ragged cloak") !== -1) ? true:false,
+      smallPouch: (toolCheck.indexOf("small pouch") !== -1) ? true:false,
+      largeBag: (toolCheck.indexOf("large bag") !== -1) ? true:false
+    };
 
     let getName = document.getElementById("name").value;
     name = (getName.length !== 0) ? getName:"[name]";
 
-    // console.log(master, familiars, talismans, tools, name);
+    console.log(master, familiars, talismans, tools, name);
   }
 
   // amount logic
@@ -485,8 +483,8 @@ function buttonForaging() {
       flVeryRare.push(":thumb717157628:");
     }
 
-    // TRCCF
-    if (familiars.TRCCF === true && rng(100) <= 25) {
+    // RCCF
+    if (familiars.RCCF === true && rng(100) <= 25) {
       let x = rng(100),
           bonusAmount = 0;
 
@@ -568,7 +566,7 @@ function buttonForaging() {
       }
 
       let bonusList = [":thumb726453276:", ":thumb717157582:",":thumb726453258:",":thumb726994219:",":thumb726453240:",":thumb838577646:",":thumb724744164:",":thumb715097305:",":thumb726453210:"],
-          output = ["Your hedgehog familiar happened to find some useful materials on your foraging trip!\n"];
+          output = ["Your hedgehog/chinilla familiar happened to find some useful materials on your foraging trip!\n"];
       for (let i = 0; i < bonusAmount; i++) {
         output.push(randomizer(bonusList));
       }
